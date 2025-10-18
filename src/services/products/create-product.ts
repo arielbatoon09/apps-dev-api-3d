@@ -1,28 +1,29 @@
-import { ProductRepository } from "@/repositories/ProductRepository";
+import ProductRepository from "@/repositories/ProductRepository";
+import { ProductData } from "@/types/product";
 
-export interface CreateProductData {
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-}
 
-export const createProductService = async (data: CreateProductData) => {
+export async function createProductService(data: ProductData) {
   // Validate required fields
   if (!data.name || !data.description || data.price == null || data.stock == null) {
-    throw new Error("Missing required fields");
+    return { status: "error", message: "Missing fields!" };
   }
 
   // Validate price and stock
-  if (data.price < 0 || data.stock < 0) {
-    throw new Error("Price and stock must be non-negative");
+  if (data.price < 1 || data.stock < 1) {
+    return { status: "error", message: "Price / Stock are not valid numbers!" };
   }
 
-  // Create Product into the Database
-  return ProductRepository.create({
+  // Create Product
+  const result = await ProductRepository.create({
     name: data.name,
     description: data.description,
     price: data.price,
     stock: data.stock,
-  });
+  })
+
+  return {
+    status: "success",
+    message: "Created Prdouct Successfully!",
+    data: result
+  }
 }

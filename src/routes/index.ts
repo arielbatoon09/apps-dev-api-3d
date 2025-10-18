@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductController } from "@/controllers/ProductController";
+import ProductController from "@/controllers/ProductController";
 
 const router = Router();
 
@@ -8,7 +8,12 @@ router.get("/", (req, res) => {
 });
 
 // Product Endpoints
-router.post("/product-create", ProductController.createProduct);
-router.post("/product-update", ProductController.updateProduct);
+router.get("/v1/product-list", ProductController.getAllProducts);
+router.get("/v1/product-active-list", ProductController.getAllActiveProducts);
+router.post("/v1/product-create", ProductController.createProduct);
+router.post("/v1/product-update", ProductController.updateProduct);
+router.post("/v1/product-hard-delete", ProductController.hardDeleteProduct);
+router.post("/v1/product-soft-delete", ProductController.softDeleteProduct);
+router.post("/v1/product-restore", ProductController.restoreProduct);
 
 export default router;
