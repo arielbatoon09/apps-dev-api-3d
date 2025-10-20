@@ -23,7 +23,7 @@ export async function createProductService(data: ProductData) {
 
   return {
     status: "success",
-    message: "Created Prdouct Successfully!",
+    message: "Created Product Successfully!",
     data: result
   }
 }
